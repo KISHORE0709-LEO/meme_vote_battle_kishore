@@ -1,0 +1,217 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Meme Arena Design System - Gaming theme with vibrant gradients */
+
+@layer base {
+  :root {
+    /* Futuristic Blue Arena Color Palette */
+    --background: 220 25% 5%;
+    --foreground: 200 20% 95%;
+
+    --card: 220 20% 8%;
+    --card-foreground: 200 20% 95%;
+
+    --popover: 220 20% 8%;
+    --popover-foreground: 200 20% 95%;
+
+    --primary: 200 100% 60%;
+    --primary-foreground: 220 25% 5%;
+    --primary-glow: 180 100% 70%;
+
+    --secondary: 240 100% 65%;
+    --secondary-foreground: 220 25% 5%;
+
+    --muted: 220 15% 15%;
+    --muted-foreground: 220 10% 65%;
+
+    --accent: 160 100% 50%;
+    --accent-foreground: 220 25% 5%;
+
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 200 20% 95%;
+
+    --success: 140 60% 50%;
+    --success-foreground: 200 20% 95%;
+
+    --border: 220 15% 15%;
+    --input: 220 15% 12%;
+    --ring: 200 100% 60%;
+
+    --radius: 1rem;
+
+    /* Futuristic Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(200 100% 60%), hsl(180 100% 70%));
+    --gradient-secondary: linear-gradient(135deg, hsl(240 100% 65%), hsl(200 100% 60%));
+    --gradient-background: linear-gradient(180deg, hsl(220 25% 5%), hsl(230 35% 3%));
+    --gradient-card: linear-gradient(135deg, hsl(220 20% 8% / 0.8), hsl(200 25% 12% / 0.8));
+    --gradient-accent: linear-gradient(135deg, hsl(160 100% 50%), hsl(140 100% 60%));
+    
+    /* Futuristic Effects */
+    --glow-primary: 0 0 40px hsl(200 100% 60% / 0.4);
+    --glow-secondary: 0 0 30px hsl(240 100% 65% / 0.3);
+    --glow-accent: 0 0 20px hsl(160 100% 50% / 0.3);
+    --glow-cyber: 0 0 60px hsl(180 100% 70% / 0.2);
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-cyber: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-montserrat;
+    background: var(--gradient-background);
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  /* Futuristic Arena Button Variants */
+  .btn-arena {
+    @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground;
+    @apply font-bold py-3 px-6 rounded-xl tracking-wider;
+    @apply shadow-lg transition-all duration-300;
+    @apply hover:scale-105 hover:shadow-2xl;
+    box-shadow: var(--glow-primary);
+    border: 1px solid hsl(var(--primary) / 0.3);
+  }
+  
+  .btn-cyber {
+    @apply bg-gradient-to-r from-accent to-accent text-accent-foreground;
+    @apply font-semibold py-2 px-4 rounded-lg tracking-wide;
+    @apply transition-all duration-300 border;
+    border-color: hsl(var(--accent) / 0.4);
+    box-shadow: var(--glow-accent);
+  }
+  
+  .btn-vote-up {
+    @apply bg-success/20 text-success border border-success/40;
+    @apply hover:bg-success hover:text-success-foreground;
+    @apply transition-all duration-300 rounded-lg backdrop-blur-sm;
+  }
+  
+  .btn-vote-down {
+    @apply bg-destructive/20 text-destructive border border-destructive/40;
+    @apply hover:bg-destructive hover:text-destructive-foreground;
+    @apply transition-all duration-300 rounded-lg backdrop-blur-sm;
+  }
+
+  /* Futuristic Card Effects */
+  .card-arena {
+    background: var(--gradient-card);
+    backdrop-filter: blur(15px);
+    border: 1px solid hsl(var(--primary) / 0.2);
+    @apply rounded-2xl overflow-hidden;
+    @apply transition-all duration-500;
+    @apply hover:scale-[1.02] hover:shadow-2xl;
+  }
+  
+  .card-arena:hover {
+    box-shadow: var(--glow-cyber);
+    border-color: hsl(var(--primary) / 0.4);
+  }
+
+  /* Cyberpunk Text Gradients */
+  .text-gradient-primary {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .text-gradient-secondary {
+    background: var(--gradient-secondary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .text-gradient-accent {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Futuristic Animations */
+  .pulse-cyber {
+    animation: pulse-cyber 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  @keyframes pulse-cyber {
+    0%, 100% {
+      opacity: 1;
+      box-shadow: var(--glow-primary);
+    }
+    50% {
+      opacity: 0.8;
+      box-shadow: var(--glow-cyber);
+    }
+  }
+  
+  .glow-text {
+    text-shadow: 0 0 10px hsl(var(--primary) / 0.5);
+  }
+}

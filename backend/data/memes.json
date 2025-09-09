@@ -1,0 +1,79 @@
+[
+  {
+    "id": "1",
+    "title": "When you find a bug in production",
+    "url": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=400&fit=crop",
+    "votes": 222,
+    "upvotes": 234,
+    "downvotes": 12,
+    "userId": "mock1",
+    "author": "CodeMaster99",
+    "createdAt": "2024-01-15T10:30:00Z"
+  },
+  {
+    "id": "2",
+    "title": "Me explaining why I need another monitor",
+    "url": "https://via.placeholder.com/500x400/4F46E5/FFFFFF?text=Me+explaining+why+I+need+another+monitor",
+    "votes": 181,
+    "upvotes": 189,
+    "downvotes": 8,
+    "userId": "mock2",
+    "author": "PixelPirate",
+    "createdAt": "2024-01-15T09:15:00Z"
+  },
+  {
+    "id": "3",
+    "title": "Emotional Damage",
+    "url": "https://via.placeholder.com/500x400/DC2626/FFFFFF?text=Emotional+Damage",
+    "votes": 319,
+    "upvotes": 342,
+    "downvotes": 23,
+    "userId": "mock3",
+    "author": "ByteBender",
+    "createdAt": "2024-01-15T08:45:00Z"
+  },
+  {
+    "id": "4",
+    "title": "Frontend vs Backend developers arguing",
+    "url": "https://images.unsplash.com/photo-1520637836862-4d197d17c90a?w=500&h=400&fit=crop",
+    "votes": 122,
+    "upvotes": 156,
+    "downvotes": 34,
+    "userId": "mock4",
+    "author": "StackOverflow_God",
+    "createdAt": "2024-01-15T07:20:00Z"
+  },
+  {
+    "id": "5",
+    "title": "My code after 6 months without comments",
+    "url": "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=500&h=400&fit=crop",
+    "votes": 263,
+    "upvotes": 278,
+    "downvotes": 15,
+    "userId": "mock5",
+    "author": "RefactorRanger",
+    "createdAt": "2024-01-15T06:10:00Z"
+  },
+  {
+    "id": "6",
+    "title": "When the client changes requirements again",
+    "url": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=500&h=400&fit=crop",
+    "votes": 438,
+    "upvotes": 445,
+    "downvotes": 7,
+    "userId": "mock6",
+    "author": "AgileAvenger",
+    "createdAt": "2024-01-15T05:30:00Z"
+  },
+  {
+    "id": "1757430266713",
+    "title": "Who are you?",
+    "url": "/uploads/1757430266690-27436706.mp4",
+    "votes": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "userId": "anonymous",
+    "author": "Anonymous",
+    "createdAt": "2025-09-09T15:04:26.713Z"
+  }
+]
