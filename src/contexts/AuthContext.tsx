@@ -1,12 +1,23 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// Simple JWT implementation for browser
+/**
+ * Creates a simple JWT-like token for browser-only authentication
+ * WARNING: This is not cryptographically secure - for demo purposes only
+ * @param payload - Data to encode in the token
+ * @returns Base64 encoded token string
+ */
 const createToken = (payload: any): string => {
   const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
   const body = btoa(JSON.stringify({ ...payload, exp: Date.now() + 7 * 24 * 60 * 60 * 1000 }));
   return `${header}.${body}.signature`;
 };
 
+/**
+ * Verifies and decodes a JWT-like token
+ * Checks expiration but does not verify signature (demo implementation)
+ * @param token - Token string to verify
+ * @returns Decoded payload or null if invalid/expired
+ */
 const verifyToken = (token: string): any => {
   try {
     const [, payload] = token.split('.');
@@ -74,6 +85,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(false);
   }, []);
 
+  /**
+   * Retrieves all users from localStorage
+   * @returns Array of user objects
+   */
   const getUsers = (): User[] => {
     const users = localStorage.getItem(USERS_KEY);
     return users ? JSON.parse(users) : [];
@@ -85,6 +100,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
 
+  /**
+   * Authenticates user with email and password
+   * @param email - User's email address
+   * @param password - User's password (stored in plain text - demo only)
+   * @throws Error if user not found or password incorrect
+   */
   const login = async (email: string, password: string) => {
     const users = getUsers();
     const foundUser = users.find(u => u.email === email);
@@ -105,6 +126,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem(TOKEN_KEY, newToken);
   };
 
+  /**
+   * Registers a new user account
+   * @param email - User's email (must be unique)
+   * @param password - User's password (stored in plain text - demo only)
+   * @param username - Display name (must be unique)
+   * @throws Error if email or username already exists
+   */
   const register = async (email: string, password: string, username: string) => {
     const users = getUsers();
     

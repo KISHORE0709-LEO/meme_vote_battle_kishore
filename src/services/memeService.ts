@@ -9,7 +9,10 @@ interface Vote {
   type: 'up' | 'down';
 }
 
-// Initialize with mock data if empty
+/**
+ * Initializes localStorage with mock meme data if no memes exist
+ * This ensures the app has sample data on first load
+ */
 const initializeMemes = () => {
   const existing = localStorage.getItem(MEMES_KEY);
   if (!existing) {
@@ -79,7 +82,11 @@ const initializeMemes = () => {
   }
 };
 
-// GET /api/memes
+/**
+ * Retrieves all memes from localStorage with user-specific vote information
+ * @param userId - Optional user ID to include user's vote status
+ * @returns Array of memes with vote counts and user vote status
+ */
 export const getAllMemes = (userId?: string): Meme[] => {
   initializeMemes();
   const memes = JSON.parse(localStorage.getItem(MEMES_KEY) || '[]');
@@ -91,7 +98,12 @@ export const getAllMemes = (userId?: string): Meme[] => {
   }));
 };
 
-// POST /api/memes
+/**
+ * Creates a new meme and stores it in localStorage
+ * @param memeData - Meme creation data including title, image, author info
+ * @returns The created meme object
+ * @throws Error if storage quota is exceeded
+ */
 export const createMeme = (memeData: { title: string; imageUrl: string; author: string; authorId: string; tags?: string[] }): Meme => {
   const memes = JSON.parse(localStorage.getItem(MEMES_KEY) || '[]');
   const newMeme: any = {
@@ -111,36 +123,43 @@ export const createMeme = (memeData: { title: string; imageUrl: string; author: 
     return newMeme;
   } catch (error: any) {
     if (error.name === 'QuotaExceededError') {
-      throw new Error('Storage is full. Cannot upload new meme. Please contact administrator.');
+      throw new Error('Storage limit reached. Your meme is too large or storage is full. Please try a smaller file or contact support.');
     }
-    throw error;
+    throw new Error('Failed to save meme. Please check your internet connection and try again.');
   }
 };
 
-// PUT /api/memes/:id/vote
+/**
+ * Handles voting on a meme (upvote/downvote)
+ * Supports vote toggling and vote changing
+ * @param memeId - ID of the meme to vote on
+ * @param userId - ID of the user casting the vote
+ * @param voteType - Type of vote: 'up' or 'down'
+ * @returns Success status and updated meme data
+ */
 export const voteMeme = (memeId: string, userId: string, voteType: 'up' | 'down'): { success: boolean; meme: Meme } => {
   const memes = JSON.parse(localStorage.getItem(MEMES_KEY) || '[]');
   const votes = JSON.parse(localStorage.getItem(VOTES_KEY) || '[]');
   
   const memeIndex = memes.findIndex((m: any) => m.id === memeId);
-  if (memeIndex === -1) throw new Error('Meme not found');
+  if (memeIndex === -1) throw new Error('This meme no longer exists or has been removed.');
   
   const existingVote = votes.find((v: Vote) => v.userId === userId && v.memeId === memeId);
   
   if (existingVote) {
     if (existingVote.type === voteType) {
-      // Remove vote
+      // User clicked same vote type - remove the vote (toggle off)
       const voteIndex = votes.indexOf(existingVote);
       votes.splice(voteIndex, 1);
       memes[memeIndex][voteType === 'up' ? 'upvotes' : 'downvotes']--;
     } else {
-      // Change vote
+      // User changed vote type - update counters for both old and new vote
       memes[memeIndex][existingVote.type === 'up' ? 'upvotes' : 'downvotes']--;
       memes[memeIndex][voteType === 'up' ? 'upvotes' : 'downvotes']++;
       existingVote.type = voteType;
     }
   } else {
-    // New vote
+    // First time voting - add new vote
     votes.push({ userId, memeId, type: voteType });
     memes[memeIndex][voteType === 'up' ? 'upvotes' : 'downvotes']++;
   }
@@ -162,7 +181,7 @@ export const deleteMeme = (memeId: string): boolean => {
   const votes = JSON.parse(localStorage.getItem(VOTES_KEY) || '[]');
   
   const memeIndex = memes.findIndex((m: any) => m.id === memeId);
-  if (memeIndex === -1) throw new Error('Meme not found');
+  if (memeIndex === -1) throw new Error('Cannot delete: This meme no longer exists.');
   
   memes.splice(memeIndex, 1);
   const filteredVotes = votes.filter((v: Vote) => v.memeId !== memeId);

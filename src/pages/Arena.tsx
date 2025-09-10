@@ -5,17 +5,27 @@ import { getAllMemes } from "@/services/memeService";
 import { getCommentCount } from "@/services/commentService";
 import { useAuth } from "@/contexts/AuthContext";
 
+/**
+ * Generates a personalized title/keyword for the user based on their voting history
+ * Analyzes the user's recent upvotes to determine their meme preferences
+ * @param user - Current user object
+ * @param memes - Array of all memes to analyze voting patterns
+ * @returns Personalized keyword/title string
+ */
 const generatePersonalizedKeyword = (user: any, memes: any[]) => {
   if (!user) return "Cyber Warrior";
   
+  // Get user's voting history from localStorage
   const votes = JSON.parse(localStorage.getItem('meme_arena_votes') || '[]');
+  // Get last 5 upvotes to analyze recent preferences
   const userUpvotes = votes.filter((v: any) => v.userId === user.id && v.type === 'up').slice(-5);
   
   if (userUpvotes.length === 0) return "Rising Champion";
   
+  // Extract titles of memes the user upvoted
   const upvotedMemes = userUpvotes.map((vote: any) => 
     memes.find(m => m.id === vote.memeId)?.title || ''
-  ).filter(Boolean);
+  ).filter(Boolean); // Remove empty titles
   
   const keywords = {
     'bug': 'Code Slayer',
@@ -29,6 +39,7 @@ const generatePersonalizedKeyword = (user: any, memes: any[]) => {
     'backend': 'Logic Lord'
   };
   
+  // Check if any upvoted meme titles contain keyword patterns
   for (const [key, value] of Object.entries(keywords)) {
     if (upvotedMemes.some(title => title.toLowerCase().includes(key))) {
       return value;
@@ -49,7 +60,13 @@ const Arena = () => {
   const [memeOfTheDay, setMemeOfTheDay] = useState<Meme | null>(null);
   const { user } = useAuth();
 
-  const getMemeOfTheDay = (memes: Meme[]) => {
+  /**
+ * Determines the "Meme of the Day" based on highest score
+ * Uses localStorage to cache the selection for 24 hours
+ * @param memes - Array of all available memes
+ * @returns The meme with highest score for today, or null if no memes
+ */
+const getMemeOfTheDay = (memes: Meme[]) => {
     const today = new Date().toDateString();
     const stored = localStorage.getItem('meme_of_the_day');
     
@@ -60,9 +77,9 @@ const Arena = () => {
       }
     }
     
-    // Calculate new meme of the day based on highest score
+    // Calculate new meme of the day based on highest net score (upvotes - downvotes)
     const sortedMemes = [...memes].sort((a, b) => (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes));
-    const topMeme = sortedMemes[0];
+    const topMeme = sortedMemes[0]; // Get meme with highest score
     
     if (topMeme) {
       localStorage.setItem('meme_of_the_day', JSON.stringify({ date: today, memeId: topMeme.id }));

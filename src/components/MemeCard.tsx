@@ -42,11 +42,16 @@ const MemeCard = ({
   const { sendMessage } = useWebSocket();
   const navigate = useNavigate();
 
+  /**
+   * Handles user voting on a meme
+   * Requires authentication and updates vote counts in real-time
+   * @param voteType - Either 'up' for upvote or 'down' for downvote
+   */
   const handleVote = (voteType: "up" | "down") => {
     if (!isAuthenticated || !user) {
       toast({
-        title: "Login Required",
-        description: "Please login to vote on memes",
+        title: "Authentication Required",
+        description: "Please log in to vote on memes and join the battle!",
         variant: "destructive"
       });
       return;
@@ -73,8 +78,8 @@ const MemeCard = ({
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to vote",
+        title: "Vote Failed",
+        description: "Unable to process your vote. Please check your connection and try again.",
         variant: "destructive"
       });
     }
@@ -92,20 +97,26 @@ const MemeCard = ({
       onUpdate?.();
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: error.message || "Failed to delete meme",
+        title: "Delete Failed",
+        description: error.message || "Unable to delete meme. Please try again or contact support.",
         variant: "destructive"
       });
     }
   };
 
-  // Allow any logged-in user to delete memes (for testing)
+  // Allow any logged-in user to delete memes (for testing purposes only)
+  // In production, this should check if user is admin or meme owner
   const canDelete = !!user;
 
+  /**
+   * Handles sharing meme to social media platforms
+   * @param platform - Social platform: 'whatsapp', 'twitter', or 'instagram'
+   */
   const handleShare = (platform: string) => {
     const memeUrl = `${window.location.origin}/meme/${id}`;
     const text = `Check out this hilarious meme: "${title}" on Meme Arena!`;
     
+    // Social media sharing URLs with encoded text and meme URL
     const urls = {
       whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + memeUrl)}`,
       twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(memeUrl)}`,
@@ -114,12 +125,16 @@ const MemeCard = ({
     
     if (platform === 'instagram') {
       navigator.clipboard.writeText(memeUrl);
-      toast({ title: "Link Copied!", description: "Share this link on Instagram Stories" });
+      toast({ 
+        title: "Link Copied!", 
+        description: "Meme link copied to clipboard. Paste it in your Instagram Stories to share!" 
+      });
     } else {
       window.open(urls[platform as keyof typeof urls], '_blank');
     }
   };
 
+  // Calculate net score for display (upvotes minus downvotes)
   const netScore = upvotes - downvotes;
 
   return (
